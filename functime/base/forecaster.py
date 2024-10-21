@@ -337,7 +337,9 @@ class Forecaster(Model):
         from functime.conformal import conformalize
 
         self.fit(y=y, X=X)
+
         y_pred = self.predict(fh=fh, X=X_future)
+
         y_preds, y_resids = self.backtest(
             y=y,
             X=X,
@@ -349,7 +351,14 @@ class Forecaster(Model):
             drop_short=drop_short,
             drop_tolerance=drop_tolerance,
         )
-        y_pred_qnts = conformalize(y_pred, y_preds, y_resids, alphas=alphas)
+
+        y_pred_qnts = conformalize(
+            y_pred=y_pred,
+            y_preds=y_preds,
+            y_resids=y_resids,
+            alphas=alphas,
+        )
+
         if return_results:
             return y_pred, y_pred_qnts, y_preds, y_resids
         return y_pred_qnts
