@@ -30,12 +30,7 @@ class snaive(Forecaster):
         sp = self.sp
         # BUG: Cannot run the following in lazy streaming mode?
         # Causes internal error: entered unreachable code
-        y_pred = (
-            y.sort(idx_cols)
-            .set_sorted(idx_cols)
-            .group_by(entity_col)
-            .agg(pl.col(target_col).tail(sp))
-        )
+        y_pred = y.sort(idx_cols).group_by(entity_col).agg(pl.col(target_col).tail(sp))
         artifacts = {"y_pred": y_pred}
         return artifacts
 

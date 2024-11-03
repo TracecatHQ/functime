@@ -10,11 +10,25 @@ from functime.cross_validation import train_test_split
 from functime.seasonality import add_fourier_terms
 
 
-@pytest.mark.parametrize("freq,sp", [("1h", 24), ("1d", 365), ("1w", 52)])
-def test_fourier_with_dates(freq: str, sp: int):
-    timestamps = pl.date_range(
-        date(2020, 1, 1), date(2021, 1, 1), interval=freq, eager=True
-    )
+@pytest.mark.parametrize(
+    "freq,sp, use_date",
+    [
+        ("1h", 24, False),
+        ("1d", 365, False),
+        ("1w", 52, False),
+        ("1d", 365, True),
+        ("1w", 52, True),
+    ],
+)
+def test_fourier_with_timestamps(freq: str, sp: int, use_date: bool):
+    if use_date:
+        timestamps = pl.date_range(
+            date(2020, 1, 1), date(2021, 1, 1), interval=freq, eager=True
+        )
+    else:
+        timestamps = pl.datetime_range(
+            date(2020, 1, 1), date(2021, 1, 1), interval=freq, eager=True
+        )
     n_timestamps = len(timestamps)
     idx_timestamps = timestamps.arg_sort() + 1
     entities = pl.concat(

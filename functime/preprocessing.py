@@ -602,9 +602,10 @@ def boxcox(method: str = "mle"):
         lmbds = gb.agg(
             PL_NUMERIC_COLS(entity_col, time_col)
             .map_elements(
-                lambda x: boxcox_normmax(x, method=method, optimizer=optimizer)
+                lambda x: boxcox_normmax(x, method=method, optimizer=optimizer),
+                returns_scalar=True,
+                return_dtype=pl.Float64,
             )
-            .cast(pl.Float64())
             .name.suffix("__lmbd")
         )
         # Step 2. Transform
@@ -667,6 +668,7 @@ def yeojohnson(brack: tuple = (-2, 2)):
             PL_NUMERIC_COLS(entity_col, time_col)
             .map_elements(
                 lambda x: yeojohnson_normmax(x.to_numpy(), brack),
+                returns_scalar=True,
                 return_dtype=pl.Float64,
             )
             .name.suffix("__lmbd")

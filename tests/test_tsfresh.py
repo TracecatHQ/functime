@@ -74,19 +74,19 @@ np.random.seed(42)
         (
             [0, 0, 0],
             [True, 0],
-            [2, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
+            [2.0, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
             {"check_dtype": False},
         ),
         (
             [0, 0, 0],
             [False, 0],
-            [2, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
+            [2.0, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
             {"check_dtype": False},
         ),
         (
             [0, 0, 0],
             [False, 1],
-            [2, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
+            [2.0, 2, 2.0, None, 2.0, 2.0, 2.0, 2],
             {"check_dtype": False},
         ),
         # won't work with no matches - error
@@ -94,27 +94,27 @@ np.random.seed(42)
         (
             [0, 0, 0],
             [True, 1],
-            [0, None, None, None, None, None, None, None],
+            [0.0, None, None, None, None, None, None, None],
             {"check_dtype": False},
         ),
         (
             [0, 1, 1, 0, 2, 2, 2],
             [True, 0],
-            [2, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
+            [2.0, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
             {"check_dtype": False},
         ),
         # # floats
         (
-            [0, 1.5, 1.5, 0, 2.5, 2.5, 2.5],
+            [0.0, 1.5, 1.5, 0, 2.5, 2.5, 2.5],
             [True, 0],
-            [2, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
+            [2.0, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
             {"check_dtype": False},
         ),
         # # negative floats
         (
-            [0, -1.5, -1.5, 0, -2.5, -2.5, -2.5],
+            [0.0, -1.5, -1.5, 0, -2.5, -2.5, -2.5],
             [False, 0],
-            [2, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
+            [2.0, 3, 2.5, 0.707107, 2.0, 2.5, 3.0, 2],
             {"check_dtype": False},
         ),
     ],
@@ -167,12 +167,12 @@ def test_streak_length_stats(S, params, res, k):
         ([0, 0, 0], [0], {}),
         ([0, 1, 2], [1], {}),
         ([2, 1, 0], [1], {}),
-        ([0, 1.5, 2, 2.5], [5 / 6], {}),
+        ([0.0, 1.5, 2, 2.5], [5 / 6], {}),
         ([2.5, 2, 1.5, 0], [5 / 6], {}),
         ([-1, 2, 3, 4], [5 / 3], {}),
         # # # this is a tough call, can potentially ask about this.
-        ([-1, 1, 2, float("inf")], [float("inf")], {}),
-        ([-1, 1, 2, -float("inf")], [float("inf")], {}),
+        ([-1.0, 1, 2, float("inf")], [float("inf")], {}),
+        ([-1.0, 1, 2, -float("inf")], [float("inf")], {}),
         ([float("inf"), -1, 1, 2], [float("inf")], {}),
     ],
 )
@@ -199,12 +199,12 @@ def test_mean_abs_change(S, res, k):
     [
         ([0, 0, 0], [0], {}),
         ([0, 1, 2], [1], {}),
-        ([0, 1.5, 2, 2.5], [5 / 6], {}),
+        ([0.0, 1.5, 2, 2.5], [5 / 6], {}),
         ([2.5, 2, 1.5, 0], [-5 / 6], {}),
         ([-1, 2, 3, 4], [5 / 3], {}),
-        ([-1, 1.3, 5.3, 4.5], [11 / 6], {}),
-        ([-1, 1, 2, float("inf")], [float("inf")], {}),
-        ([-1, 1, 2, -float("inf")], [-float("inf")], {}),
+        ([-1.0, 1.3, 5.3, 4.5], [11 / 6], {}),
+        ([-1.0, 1, 2, float("inf")], [float("inf")], {}),
+        ([-1.0, 1, 2, -float("inf")], [-float("inf")], {}),
         ([1], [0], {"check_dtype": False}),
         ([], [0], {"check_dtype": False}),
     ],
@@ -231,9 +231,9 @@ def test_mean_change(S, res, k):
     [
         ([0, 0, 0], [False]),
         ([0, 1, 2], [True]),
-        ([0, 1.5, 2, 2.5, 50], [True]),
+        ([0.0, 1.5, 2, 2.5, 50], [True]),
         ([-1, 2, 3, 4], [True]),
-        ([-1, 1.3, 5.3, 4.5], [True]),
+        ([-1.0, 1.3, 5.3, 4.5], [True]),
     ],
 )
 def test_var_gt_std(S, res):
@@ -255,9 +255,9 @@ def test_var_gt_std(S, res):
     [
         ([0, 0, 0], [False]),
         ([0, 1, 2], [True]),
-        ([0, 1.5, 2, 2.5, 50], [True]),
+        ([0.0, 1.5, 2, 2.5, 50], [True]),
         ([-1, 2, 3, 4], [True]),
-        ([-1, 1.3, 5.3, 4.5], [True]),
+        ([-1.0, 1.3, 5.3, 4.5], [True]),
     ],
 )
 def test_large_standard_deviation(S, res):
@@ -280,7 +280,7 @@ def test_large_standard_deviation(S, res):
         ([0, 1, 2], [0.816497]),
         ([9, 7, 10000], [1.410825]),
         ([-1, 2, 3, 4], [0.93541434]),
-        ([-1, 1.3, 5.3, 4.5], [1.00049]),
+        ([-1.0, 1.3, 5.3, 4.5], [1.00049]),
     ],
 )
 def test_variation_coefficient(S, res):
@@ -303,8 +303,8 @@ def test_variation_coefficient(S, res):
         ([-5, 0, 1], [2]),
         ([0], [1]),
         ([-1, 2, 3, 4], [3]),
-        ([-1, 1.3], [1]),
-        ([1, float("inf")], [1]),
+        ([-1.0, 1.3], [1]),
+        ([1.0, float("inf")], [1]),
         ([1, None], [1]),
     ],
 )
@@ -388,7 +388,7 @@ def test_linear_trend(S, res, k):
         ([-5, 0, 1], [26]),
         ([0], [0]),
         ([-1, 2, -3], [14]),
-        ([-1, 1.3], [2.6900000000000004]),
+        ([-1.0, 1.3], [2.6900000000000004]),
         ([1], [1]),
     ],
 )
@@ -941,15 +941,15 @@ def test_benford_correlation():
 def test_longest_streak_below_mean(S, res):
     assert_frame_equal(
         pl.DataFrame({"a": S}).select(
-            longest_streak_below_mean(pl.col("a")).alias("lengths")
+            longest_streak_below_mean(pl.col("a")).alias("len").cast(pl.UInt32)
         ),
-        pl.DataFrame(pl.Series("lengths", res, dtype=pl.Int32)),
+        pl.DataFrame(pl.Series("len", res, dtype=pl.UInt32)),
     )
     assert_frame_equal(
         pl.LazyFrame({"a": S})
-        .select(longest_streak_below_mean(pl.col("a")).alias("lengths"))
+        .select(longest_streak_below_mean(pl.col("a")).alias("len").cast(pl.UInt32))
         .collect(),
-        pl.DataFrame(pl.Series("lengths", res, dtype=pl.Int32)),
+        pl.DataFrame(pl.Series("len", res, dtype=pl.UInt32)),
     )
 
 
@@ -967,15 +967,15 @@ def test_longest_streak_below_mean(S, res):
 def test_longest_streak_above_mean(S, res):
     assert_frame_equal(
         pl.DataFrame({"a": S}).select(
-            longest_streak_above_mean(pl.col("a")).alias("lengths")
+            longest_streak_above_mean(pl.col("a").alias("len").cast(pl.UInt32))
         ),
-        pl.DataFrame(pl.Series("lengths", res, dtype=pl.Int32)),
+        pl.DataFrame(pl.Series("len", res, dtype=pl.UInt32)),
     )
     assert_frame_equal(
         pl.LazyFrame({"a": S})
-        .select(longest_streak_above_mean(pl.col("a")).alias("lengths"))
+        .select(longest_streak_above_mean(pl.col("a")).alias("len").cast(pl.UInt32))
         .collect(),
-        pl.DataFrame(pl.Series("lengths", res, dtype=pl.Int32)),
+        pl.DataFrame(pl.Series("len", res, dtype=pl.UInt32)),
     )
 
 
@@ -1021,7 +1021,7 @@ def test_ratio_beyond_r_sigma(S, res, ratio):
     "S, res",
     [
         ([1, 1, 2, 3, 4], [0.8]),
-        ([1, 1.5, 2, 3], [1.0]),
+        ([1.0, 1.5, 2, 3], [1.0]),
         ([1], [1.0]),
         ([1.111, -2.45, 1.111, 2.45], [0.75]),
     ],
@@ -1123,7 +1123,7 @@ def test_mean_n_absolute_max(S, n_max, res):
     "S, res",
     [
         ([1, 1, 2, 3, 4], [0.25]),
-        ([1, 1.5, 2, 3], [0]),
+        ([1.0, 1.5, 2, 3], [0]),
         ([1], [0]),
         ([1.111, -2.45, 1.111, 2.45], [1.0 / 3.0]),
     ],
@@ -1145,7 +1145,7 @@ def test_percent_reoccuring_values(S, res):
     "S, res",
     [
         ([1, 1, 2, 3, 4, 4], [10]),
-        ([1, 1.5, 2, 3], [0.0]),
+        ([1.0, 1.5, 2, 3], [0.0]),
         ([1], [0]),
         ([1.111, -2.45, 1.111, 2.45], [2.222]),
     ],
@@ -1165,7 +1165,7 @@ def test_sum_reoccurring_points(S, res):
     "S, res",
     [
         ([1, 1, 2, 3, 4, 4], [5]),
-        ([1, 1.5, 2, 3], [0.0]),
+        ([1.0, 1.5, 2, 3], [0.0]),
         ([1], [0]),
         ([1.111, -2.45, 1.111, 2.45], [1.111]),
     ],
@@ -1185,7 +1185,7 @@ def test_sum_reoccurring_values(S, res):
     "S, res",
     [
         ([1, 1, 2, 3, 4], [0.4]),
-        ([1, 1.5, 2, 3], [0]),
+        ([1.0, 1.5, 2, 3], [0]),
         ([1], [0]),
         ([1.111, -2.45, 1.111, 2.45], [0.5]),
         ([], [np.nan]),
@@ -1574,7 +1574,7 @@ def test_range_over_mean_and_range(S, res):
         ([10, 20, 20, 30], [0], 0),
         ([10, 20, 20, 30], [1], 15),
         ([10, -10, 10, -10], [3], 0),
-        ([-10, 10.1, -10, 10.1, -10], [4], 10),
+        ([-10.0, 10.1, -10, 10.1, -10], [4], 10),
         ([10, 11, 12, 10, 11], [3], 10.5),
     ],
 )
